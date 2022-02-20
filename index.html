@@ -16,10 +16,58 @@
 
     <div class="page-container">
         <div class="control-box">
+            <h2>Control Box</h2>
+            <h3>Select Color</h3>
+            <table>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td id="default-color"></td>
+                </tr>
+            </table>
+
+            <button class="rainbow">Rainbow Mode</button>
+            <button class="erase">Eraser</button>
+            <button class="reset">Reset Grid</button>
+            <label for="grid-side">Grid Size (4-100):</label>
+            <input type="number" id="grid-size" min="4" max="100">
 
         </div>
 
         <div class="grid-container"></div>
+
+        <div class="control-box hidden"></div> <!--Invisible element for flex alignment-->
     </div>
+
 </body>
 </html>
