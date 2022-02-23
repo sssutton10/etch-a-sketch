@@ -34,8 +34,7 @@ function randomRGBAColor(){
     let g = randomInt(0,255)
     let b = randomInt(0,255)
     let a = Math.random()
-
-    return 'rgba(' + r + ', ' + g + ', ' + b + ', ' + a + ')'
+    return [r,g,b,a]
 }
 
 function addColor(e){
@@ -44,13 +43,24 @@ function addColor(e){
     }
     else if (rainbow && (enableColor || e.type == 'mousedown')){
         if(this.getAttribute('data-passCount') == 0){
-            this.style.backgroundColor = randomRGBAColor()
-            this.setAttribute('data-passCount', parseInt(this.getAttribute('data-passCount') + 1))
+            let colorPieces = randomRGBAColor()
+            this.style.backgroundColor = 'rgba(' + colorPieces[0] + ', ' + colorPieces[1] + ', ' + colorPieces[2] + ', ' + colorPieces[3] + ')'
+            this.setAttribute('data-passCount', parseInt(this.getAttribute('data-passCount')) + 1)
+            this.setAttribute('data-rStep', colorPieces[0]/10)
+            this.setAttribute('data-gStep', colorPieces[1]/10)
+            this.setAttribute('data-bStep', colorPieces[2]/10)
+            this.setAttribute('data-alpha', colorPieces[3])
         }
-        // else{
-        //     tilBlack = 10 - parseInt(this.getAttribute('data-passCount'))
-
-        // }
+        else{
+            tilBlack = Math.max(10 - parseInt(this.getAttribute('data-passCount')),0)
+            let r, g, b, a;
+            r = Math.floor(parseInt(this.getAttribute('data-rStep')) * tilBlack)
+            g = Math.floor(parseInt(this.getAttribute('data-gStep')) * tilBlack)
+            b = Math.floor(parseInt(this.getAttribute('data-bStep')) * tilBlack)
+            a = this.getAttribute('data-alpha')
+            this.style.backgroundColor = 'rgba(' + r + ', ' + g + ', ' + b + ', ' + a + ')'
+            this.setAttribute('data-passCount', parseInt(this.getAttribute('data-passCount')) + 1)
+        }
         
     }
     else if (enableColor || e.type == 'mousedown'){
@@ -65,6 +75,10 @@ function populateGrid(n){
         div.classList.add('grid-square')
         div.style.width = 1/n*100 + '%'
         div.setAttribute('data-passCount', 0)
+        div.setAttribute('data-rStep', 0)
+        div.setAttribute('data-gStep', 0)
+        div.setAttribute('data-bStep', 0)
+        div.setAttribute('data-alpha', 0)
         div.addEventListener('mouseover', addColor)
         div.addEventListener('mousedown', addColor)
         grid.append(div)
@@ -73,7 +87,14 @@ function populateGrid(n){
 
 function resetGrid(){
     let squares = document.querySelectorAll('.grid-square')
-    squares.forEach(element => {element.style.backgroundColor = 'white'});
+    squares.forEach(element => {
+        element.style.backgroundColor = 'white'
+        element.setAttribute('data-passCount', 0)
+        element.setAttribute('data-rStep', 0)
+        element.setAttribute('data-gStep', 0)
+        element.setAttribute('data-bStep', 0)
+        element.setAttribute('data-alpha', 0)
+    });
 }
 
 function clearGrid(){
